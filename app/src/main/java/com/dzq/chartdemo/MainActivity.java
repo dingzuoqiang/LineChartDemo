@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DzqLineChart dzqLineChart = (DzqLineChart) findViewById(R.id.lay_lineChart);
+        DzqLineChart dzqLineChart2 = (DzqLineChart) findViewById(R.id.lay_lineChart2);
 
         pointList = new ArrayList<List<Float>>();
         titleXList = new ArrayList<String>();
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         circleDotBitmapList = new ArrayList<>();
         circleDotBitmapList.add(R.mipmap.icon_chart_dot);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             List<Float> pointInList = new ArrayList<Float>();
             for (int j = 0; j < 5; j++) {
                 Random r = new Random();
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
 //        dzqLineChart.setLineColorList(lineColorList);
 //        dzqLineChart.setCircleDotBitmapList(circleDotBitmapList);
 //        dzqLineChart.setSingleColumnFillColor(getResources().getColor(R.color.colorAccent));
+
+        dzqLineChart2.setPointList(pointList);
+        dzqLineChart2.setTitleXList(titleXList);
 
     }
 }

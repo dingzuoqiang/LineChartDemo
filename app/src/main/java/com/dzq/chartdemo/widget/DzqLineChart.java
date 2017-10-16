@@ -46,12 +46,15 @@ public class DzqLineChart extends View {
 
     private int circleDotRadius = 10;//折线上圆点半径  默认10
     private int titleXRotateDegrees = 0;// X轴 标题 旋转角度
-    private float xyAxisLineStrokeWidth = 3;// X、Y 轴 线宽度，（包括内部的X、Y 轴 线 ）
+    private float xyAxisLineStrokeWidth = 2;// X、Y 轴 线宽度，（包括内部的X、Y 轴 线 ）
 
+    private int selectedPositionInsideY = -1;// 选中的 内部Y轴 position, （ >=0 && < numberOfX &&绘制内部的Y轴完成）  才会绘制出来
+    private int selectedPositionInsideYLineColor = Color.BLACK;//选中的 内部Y轴 的线颜色  默认黑色 Color.BLACK
+    private float selectedPositionInsideYStrokeWidth = 2;// 选中的 内部Y轴线 宽度
 
-    private Integer circleDotBitmapNotSet = Color.RED;//折线上圆点颜色  圆点Bitmap数组若不设置  圆点默认黑色 Color.RED
-    private Integer lineColorNotSet = Color.BLACK;//折线颜色  若不设置  默认黑色 Color.BLACK
-    private float lineChartStrokeWidth = 3;// 折线 宽度
+    private int circleDotBitmapNotSet = Color.RED;//折线上圆点颜色  圆点Bitmap数组若不设置  圆点默认黑色 Color.RED
+    private int lineColorNotSet = Color.BLACK;//折线颜色  若不设置  默认黑色 Color.BLACK
+    private float lineChartStrokeWidth = 2;// 折线 宽度
 
     private int bgColor = Color.WHITE;// View 的背景色   默认白色 ffffff
     private int singleColumnFillColor = Color.rgb(Integer.parseInt("e7", 16),
@@ -74,10 +77,10 @@ public class DzqLineChart extends View {
     private List<String> titleYList;// 计算得出的Y轴标题
     private List<List<Float>> pointList;// 传入的数据
 
-    private boolean isDrawXDashedY = false;// 是否绘制Y轴 虚线
+    private boolean isDrawYDashed = false;// 是否绘制Y轴 虚线
     private boolean isDrawY = true;// 是否绘制Y轴
     private boolean isDrawX = true;// 是否绘制X轴
-    private boolean isDrawXDashedX = false;// 是否绘制X轴 虚线
+    private boolean isDrawXDashed = false;// 是否绘制X轴 虚线
 
     private boolean isDrawInsideDashedY = true;// 是否绘制内部的Y轴 虚线
     private boolean isDrawInsedeY = true;// 是否绘制内部的Y轴
@@ -110,8 +113,8 @@ public class DzqLineChart extends View {
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.DzqLineChart, defStyle, 0);
         isDrawX = array.getBoolean(R.styleable.DzqLineChart_isDrawX, isDrawX);
         isDrawY = array.getBoolean(R.styleable.DzqLineChart_isDrawY, isDrawY);
-        isDrawXDashedX = array.getBoolean(R.styleable.DzqLineChart_isDrawXDashedX, isDrawXDashedX);
-        isDrawXDashedY = array.getBoolean(R.styleable.DzqLineChart_isDrawXDashedY, isDrawXDashedY);
+        isDrawXDashed = array.getBoolean(R.styleable.DzqLineChart_isDrawXDashed, isDrawXDashed);
+        isDrawYDashed = array.getBoolean(R.styleable.DzqLineChart_isDrawYDashed, isDrawYDashed);
         isDrawInsideX = array.getBoolean(R.styleable.DzqLineChart_isDrawInsideX, isDrawInsideX);
         isDrawInsedeY = array.getBoolean(R.styleable.DzqLineChart_isDrawInsedeY, isDrawInsedeY);
         isDrawInsideDashedX = array.getBoolean(R.styleable.DzqLineChart_isDrawInsideDashedX, isDrawInsideDashedX);
@@ -127,6 +130,10 @@ public class DzqLineChart extends View {
         textColor = array.getColor(R.styleable.DzqLineChart_textColor, textColor);
         bgColor = array.getColor(R.styleable.DzqLineChart_bgColor, bgColor);
         xyAxisLineColor = array.getColor(R.styleable.DzqLineChart_xyAxisLineColor, xyAxisLineColor);
+
+        selectedPositionInsideY = array.getInt(R.styleable.DzqLineChart_selectedPositionInsideY, selectedPositionInsideY);
+        selectedPositionInsideYLineColor = array.getColor(R.styleable.DzqLineChart_selectedPositionInsideYLineColor, selectedPositionInsideYLineColor);
+        selectedPositionInsideYStrokeWidth = array.getDimension(R.styleable.DzqLineChart_selectedPositionInsideYStrokeWidth, selectedPositionInsideYStrokeWidth);
 
         array.recycle();
 
@@ -262,12 +269,12 @@ public class DzqLineChart extends View {
         paint.setColor(xyAxisLineColor);// //表格线颜色
         paint.setStrokeWidth(xyAxisLineStrokeWidth);
 
-        if (isDrawX) {
+        if (isDrawX) {//是否绘制X轴
             int appendX = 0;
             if (isAppendX) {
                 appendX = appendXLength;
             }
-            if (isDrawXDashedX) {
+            if (isDrawXDashed) {
                 paintDashed(canvas, paddingLeft - appendX, paddingTop + listY.get(0).y, listY.get(0).x
                                 + paddingLeft,
                         paddingTop + listY.get(0).y, xyAxisLineColor);
@@ -276,15 +283,16 @@ public class DzqLineChart extends View {
                                 + paddingLeft,
                         paddingTop + listY.get(0).y, paint);
         }
-        if (isDrawY) {
-            if (isDrawXDashedY) {
+        if (isDrawY) {//是否绘制Y轴
+            if (isDrawYDashed) {
                 paintDashed(canvas, listX.get(0).x, paddingTop, listX.get(0).x, listX.get(0).y + paddingTop, xyAxisLineColor);
             } else
                 canvas.drawLine(listX.get(0).x, paddingTop, listX.get(0).x, listX.get(0).y + paddingTop, paint);
         }
 
-        if (isDrawInsedeY) {// 绘制纵向的
-            for (int i = 1; i < listX.size(); i++) {// 第一根内部 x轴线 和 X轴线 重叠，故不绘制第一条线
+        if (isDrawInsedeY) {// 是否绘制内部的Y轴
+            for (int i = 0; i < listX.size(); i++) {// 第一根内部 y轴线 和 Y轴线 重叠，故绘制Y轴的时候 不绘制第一条线
+                if (isDrawY && i == 0) continue;
                 Point point = listX.get(i);
                 if (isDrawInsideDashedY) {
                     paintDashed(canvas, point.x, paddingTop, point.x, point.y + paddingTop, xyAxisLineColor);
@@ -294,13 +302,13 @@ public class DzqLineChart extends View {
 
             }
         }
-        if (isDrawInsideX) {// 绘制横向的
+        if (isDrawInsideX) {// 是否绘制内部的X轴
 
             int appendX = 0;
             if (isAppendX) {
                 appendX = appendXLength;
             }
-            for (int i = 1; i < listY.size(); i++) {// 第一根内部 x轴线 和 X轴线 重叠，故不绘制第一条线
+            for (int i = (isDrawX ? 1 : 0); i < listY.size(); i++) {// 第一根内部 x轴线 和 X轴线 重叠，故绘制X轴的时候 不绘制第一条线
                 Point point = listY.get(i);
                 if (isDrawInsideDashedX) {
                     paintDashed(canvas, paddingLeft - appendX, paddingTop + point.y, point.x + paddingLeft,
@@ -312,6 +320,14 @@ public class DzqLineChart extends View {
 
             }
 
+        }
+
+        //  选中的 内部Y轴 position, （selectedPositionInsideY >=0 && < numberOfX &&绘制内部的Y轴完成）  才会绘制出来
+        paint.setColor(selectedPositionInsideYLineColor);// //表格线颜色
+        paint.setStrokeWidth(selectedPositionInsideYStrokeWidth);
+        if (selectedPositionInsideY >= 0 && selectedPositionInsideY < listX.size()) {
+            Point point = listX.get(selectedPositionInsideY);
+            canvas.drawLine(point.x, paddingTop, point.x, point.y + paddingTop, paint);
         }
 
     }
@@ -511,7 +527,7 @@ public class DzqLineChart extends View {
         canvas.drawPath(path, paint);
     }
 
-    public void setTextSize(int textSize) {
+    public void setTextSize(float textSize) {
         this.textSize = textSize;
     }
 
@@ -543,6 +559,10 @@ public class DzqLineChart extends View {
         this.paddingBottom = paddingBottom;
     }
 
+    public void setyTitle2RightPadding(int yTitle2RightPadding) {
+        this.yTitle2RightPadding = yTitle2RightPadding;
+    }
+
     public void setAppendXLength(int appendXLength) {
         this.appendXLength = appendXLength;
     }
@@ -555,19 +575,31 @@ public class DzqLineChart extends View {
         this.titleXRotateDegrees = titleXRotateDegrees;
     }
 
-    public void setXyAxisLineStrokeWidth(int xyAxisLineStrokeWidth) {
+    public void setXyAxisLineStrokeWidth(float xyAxisLineStrokeWidth) {
         this.xyAxisLineStrokeWidth = xyAxisLineStrokeWidth;
     }
 
-    public void setCircleDotBitmapNotSet(Integer circleDotBitmapNotSet) {
+    public void setSelectedPositionInsideY(int selectedPositionInsideY) {
+        this.selectedPositionInsideY = selectedPositionInsideY;
+    }
+
+    public void setSelectedPositionInsideYLineColor(int selectedPositionInsideYLineColor) {
+        this.selectedPositionInsideYLineColor = selectedPositionInsideYLineColor;
+    }
+
+    public void setSelectedPositionInsideYStrokeWidth(float selectedPositionInsideYStrokeWidth) {
+        this.selectedPositionInsideYStrokeWidth = selectedPositionInsideYStrokeWidth;
+    }
+
+    public void setCircleDotBitmapNotSet(int circleDotBitmapNotSet) {
         this.circleDotBitmapNotSet = circleDotBitmapNotSet;
     }
 
-    public void setLineColorNotSet(Integer lineColorNotSet) {
+    public void setLineColorNotSet(int lineColorNotSet) {
         this.lineColorNotSet = lineColorNotSet;
     }
 
-    public void setLineChartStrokeWidth(int lineChartStrokeWidth) {
+    public void setLineChartStrokeWidth(float lineChartStrokeWidth) {
         this.lineChartStrokeWidth = lineChartStrokeWidth;
     }
 
@@ -595,18 +627,6 @@ public class DzqLineChart extends View {
         this.yAxisUnit = yAxisUnit;
     }
 
-    public void setScreenX(int screenX) {
-        ScreenX = screenX;
-    }
-
-    public void setScreenY(int screenY) {
-        ScreenY = screenY;
-    }
-
-    public void setMaxNumber(float maxNumber) {
-        this.maxNumber = maxNumber;
-    }
-
     public void setCircleDotBitmapList(List<Integer> circleDotBitmapList) {
         this.circleDotBitmapList = circleDotBitmapList;
     }
@@ -623,8 +643,8 @@ public class DzqLineChart extends View {
         this.pointList = pointList;
     }
 
-    public void setDrawXDashedY(boolean drawXDashedY) {
-        isDrawXDashedY = drawXDashedY;
+    public void setDrawYDashed(boolean drawYDashed) {
+        isDrawYDashed = drawYDashed;
     }
 
     public void setDrawY(boolean drawY) {
@@ -635,8 +655,8 @@ public class DzqLineChart extends View {
         isDrawX = drawX;
     }
 
-    public void setDrawXDashedX(boolean drawXDashedX) {
-        isDrawXDashedX = drawXDashedX;
+    public void setDrawXDashed(boolean drawXDashed) {
+        isDrawXDashed = drawXDashed;
     }
 
     public void setDrawInsideDashedY(boolean drawInsideDashedY) {
@@ -655,15 +675,15 @@ public class DzqLineChart extends View {
         isDrawInsideDashedX = drawInsideDashedX;
     }
 
+    public void setColumnFillColor(boolean columnFillColor) {
+        isColumnFillColor = columnFillColor;
+    }
+
     public void setFillDown(boolean fillDown) {
         isFillDown = fillDown;
     }
 
     public void setAppendX(boolean appendX) {
         isAppendX = appendX;
-    }
-
-    public void setColumnFillColor(boolean columnFillColor) {
-        isColumnFillColor = columnFillColor;
     }
 }

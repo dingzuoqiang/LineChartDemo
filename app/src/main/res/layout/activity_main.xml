@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
@@ -15,31 +15,56 @@
     <com.dzq.chartdemo.widget.DzqLineChart
         android:id="@+id/lay_lineChart"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="center_vertical"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:bgColor="#FF4081"
         app:isAppendX="false"
+        app:isColumnFillColor="true"
         app:isDrawInsedeY="false"
         app:isDrawInsideDashedX="true"
         app:isDrawInsideDashedY="true"
         app:isDrawInsideX="true"
         app:isDrawX="true"
-        app:isDrawXDashedX="true"
-        app:isDrawXDashedY="true"
+        app:isDrawXDashed="true"
         app:isDrawY="true"
-        app:isColumnFillColor="true"
+        app:isDrawYDashed="true"
         app:isFillDown="true"
-        app:textSize="11sp"
-        app:xyAxisLineStrokeWidth="1dp"
-        app:lineChartStrokeWidth="2dp"
-        app:bgColor="#FF4081"
         app:textColor="#FFFFFF"
-        app:xyAxisLineColor="#CDCDCD"/>
+        app:textSize="11sp"
+        app:xyAxisLineColor="#CDCDCD" />
+
+    <com.dzq.chartdemo.widget.DzqLineChart
+        android:id="@+id/lay_lineChart2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        app:bgColor="#FFffff"
+        app:isAppendX="false"
+        app:isColumnFillColor="false"
+        app:isDrawInsedeY="false"
+        app:isDrawInsideDashedX="true"
+        app:isDrawInsideDashedY="true"
+        app:isDrawInsideX="true"
+        app:isDrawX="false"
+        app:isDrawXDashed="false"
+        app:isDrawY="false"
+        app:isDrawYDashed="false"
+        app:isFillDown="false"
+        app:lineChartStrokeWidth="2dp"
+        app:selectedPositionInsideY="2"
+        app:selectedPositionInsideYLineColor="#FF4081"
+        app:selectedPositionInsideYStrokeWidth="2dp"
+        app:textColor="#000000"
+        app:textSize="11sp"
+        app:xyAxisLineColor="#CDCDCD"
+        app:xyAxisLineStrokeWidth="1dp" />
 
 
     <!--<attr name="isDrawX" format="boolean" />&lt;!&ndash;是否绘制X轴&ndash;&gt;-->
     <!--<attr name="isDrawY" format="boolean" />&lt;!&ndash;是否绘制Y轴&ndash;&gt;-->
-    <!--<attr name="isDrawXDashedX" format="boolean" /> &lt;!&ndash;是否绘制X轴 虚线&ndash;&gt;-->
-    <!--<attr name="isDrawXDashedY" format="boolean" />&lt;!&ndash;是否绘制Y轴 虚线&ndash;&gt;-->
+    <!--<attr name="isDrawXDashed" format="boolean" /> &lt;!&ndash;是否绘制X轴 虚线&ndash;&gt;-->
+    <!--<attr name="isDrawYDashed" format="boolean" />&lt;!&ndash;是否绘制Y轴 虚线&ndash;&gt;-->
     <!--<attr name="isDrawInsideX" format="boolean" />&lt;!&ndash;是否绘制内部的X轴&ndash;&gt;-->
     <!--<attr name="isDrawInsedeY" format="boolean" />&lt;!&ndash;是否绘制内部的Y轴&ndash;&gt;-->
     <!--<attr name="isDrawInsideDashedX" format="boolean" />&lt;!&ndash;是否绘制内部的X轴 虚线&ndash;&gt;-->
@@ -48,12 +73,15 @@
     <!--<attr name="isFillDown" format="boolean" />&lt;!&ndash;是否填充点的下面部分&ndash;&gt;-->
     <!--<attr name="isAppendX" format="boolean" />&lt;!&ndash;X轴是否向左突出一点&ndash;&gt;-->
 
-    <!--<attr name="textSize" format="dimension|reference" />-->
-    <!--<attr name="xyAxisLineStrokeWidth" format="dimension|reference" />-->
-    <!--<attr name="lineChartStrokeWidth" format="dimension|reference" />-->
+    <!--<attr name="textSize" format="dimension|reference" />&lt;!&ndash;X、Y轴 字体大小&ndash;&gt;-->
+    <!--<attr name="xyAxisLineStrokeWidth" format="dimension|reference" />&lt;!&ndash;X、Y 轴 线宽度，（包括内部的X、Y 轴 线 ）&ndash;&gt;-->
+    <!--<attr name="lineChartStrokeWidth" format="dimension|reference" />&lt;!&ndash;折线 宽度&ndash;&gt;-->
 
+    <!--<attr name="textColor" format="color|reference" />&lt;!&ndash; X、Y轴 字体颜色&ndash;&gt;-->
+    <!--<attr name="bgColor" format="color|reference" />&lt;!&ndash;背景色&ndash;&gt;-->
+    <!--<attr name="xyAxisLineColor" format="color|reference" />&lt;!&ndash;X、Y 轴以及表格的线颜色&ndash;&gt;-->
 
-    <!--<attr name="textColor" format="color|reference" />-->
-    <!--<attr name="bgColor" format="color|reference" />-->
-    <!--<attr name="xyAxisLineColor" format="color|reference" />-->
-</FrameLayout>
+    <!--<attr name="selectedPositionInsideY" format="integer" />&lt;!&ndash;选中的 内部Y轴 position&ndash;&gt;-->
+    <!--<attr name="selectedPositionInsideYStrokeWidth" format="dimension|reference" />&lt;!&ndash;选中的 内部Y轴线 宽度&ndash;&gt;-->
+    <!--<attr name="selectedPositionInsideYLineColor" format="color|reference" />&lt;!&ndash;选中的 内部Y轴 的线颜色&ndash;&gt;-->
+</LinearLayout>

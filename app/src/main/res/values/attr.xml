@@ -4,8 +4,8 @@
     <declare-styleable name="DzqLineChart">
         <attr name="isDrawX" format="boolean" /><!--是否绘制X轴-->
         <attr name="isDrawY" format="boolean" /><!--是否绘制Y轴-->
-        <attr name="isDrawXDashedX" format="boolean" /> <!--是否绘制X轴 虚线-->
-        <attr name="isDrawXDashedY" format="boolean" /><!--是否绘制Y轴 虚线-->
+        <attr name="isDrawXDashed" format="boolean" /> <!--是否绘制X轴 虚线-->
+        <attr name="isDrawYDashed" format="boolean" /><!--是否绘制Y轴 虚线-->
         <attr name="isDrawInsideX" format="boolean" /><!--是否绘制内部的X轴-->
         <attr name="isDrawInsedeY" format="boolean" /><!--是否绘制内部的Y轴-->
         <attr name="isDrawInsideDashedX" format="boolean" /><!--是否绘制内部的X轴 虚线-->
@@ -21,5 +21,10 @@
         <attr name="textColor" format="color|reference" /><!-- X、Y轴 字体颜色-->
         <attr name="bgColor" format="color|reference" /><!--背景色-->
         <attr name="xyAxisLineColor" format="color|reference" /><!--X、Y 轴以及表格的线颜色-->
+
+        <attr name="selectedPositionInsideY" format="integer" /><!--选中的 内部Y轴 position-->
+        <attr name="selectedPositionInsideYStrokeWidth" format="dimension|reference" /><!--选中的 内部Y轴线 宽度-->
+        <attr name="selectedPositionInsideYLineColor" format="color|reference" /><!--选中的 内部Y轴 的线颜色-->
+
     </declare-styleable>
 </resources>
