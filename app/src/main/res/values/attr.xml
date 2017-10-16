@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DzqLineChart">
+        <attr name="isDrawX" format="boolean" /><!--是否绘制X轴-->
+        <attr name="isDrawY" format="boolean" /><!--是否绘制Y轴-->
+        <attr name="isDrawXDashedX" format="boolean" /> <!--是否绘制X轴 虚线-->
+        <attr name="isDrawXDashedY" format="boolean" /><!--是否绘制Y轴 虚线-->
+        <attr name="isDrawInsideX" format="boolean" /><!--是否绘制内部的X轴-->
+        <attr name="isDrawInsedeY" format="boolean" /><!--是否绘制内部的Y轴-->
+        <attr name="isDrawInsideDashedX" format="boolean" /><!--是否绘制内部的X轴 虚线-->
+        <attr name="isDrawInsideDashedY" format="boolean" /><!--是否绘制内部的Y轴 虚线-->
+        <attr name="isColumnFillColor" format="boolean" /><!--是否填充单双列颜色-->
+        <attr name="isFillDown" format="boolean" /><!--是否填充点的下面部分-->
+        <attr name="isAppendX" format="boolean" /><!--X轴是否向左突出一点-->
+
+        <attr name="textSize" format="dimension|reference" /><!--X、Y轴 字体大小-->
+        <attr name="xyAxisLineStrokeWidth" format="dimension|reference" /><!--X、Y 轴 线宽度，（包括内部的X、Y 轴 线 ）-->
+        <attr name="lineChartStrokeWidth" format="dimension|reference" /><!--折线 宽度-->
+
+        <attr name="textColor" format="color|reference" /><!-- X、Y轴 字体颜色-->
+        <attr name="bgColor" format="color|reference" /><!--背景色-->
+        <attr name="xyAxisLineColor" format="color|reference" /><!--X、Y 轴以及表格的线颜色-->
+    </declare-styleable>
+</resources>

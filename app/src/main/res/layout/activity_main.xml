@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.dzq.chartdemo.MainActivity">
+
+    <com.dzq.chartdemo.widget.DzqLineChart
+        android:id="@+id/lay_lineChart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center_vertical"
+        app:isAppendX="false"
+        app:isDrawInsedeY="false"
+        app:isDrawInsideDashedX="true"
+        app:isDrawInsideDashedY="true"
+        app:isDrawInsideX="true"
+        app:isDrawX="true"
+        app:isDrawXDashedX="true"
+        app:isDrawXDashedY="true"
+        app:isDrawY="true"
+        app:isColumnFillColor="true"
+        app:isFillDown="true"
+        app:textSize="11sp"
+        app:xyAxisLineStrokeWidth="1dp"
+        app:lineChartStrokeWidth="2dp"
+        app:bgColor="#FF4081"
+        app:textColor="#FFFFFF"
+        app:xyAxisLineColor="#CDCDCD"/>
+
+
+    <!--<attr name="isDrawX" format="boolean" />&lt;!&ndash;是否绘制X轴&ndash;&gt;-->
+    <!--<attr name="isDrawY" format="boolean" />&lt;!&ndash;是否绘制Y轴&ndash;&gt;-->
+    <!--<attr name="isDrawXDashedX" format="boolean" /> &lt;!&ndash;是否绘制X轴 虚线&ndash;&gt;-->
+    <!--<attr name="isDrawXDashedY" format="boolean" />&lt;!&ndash;是否绘制Y轴 虚线&ndash;&gt;-->
+    <!--<attr name="isDrawInsideX" format="boolean" />&lt;!&ndash;是否绘制内部的X轴&ndash;&gt;-->
+    <!--<attr name="isDrawInsedeY" format="boolean" />&lt;!&ndash;是否绘制内部的Y轴&ndash;&gt;-->
+    <!--<attr name="isDrawInsideDashedX" format="boolean" />&lt;!&ndash;是否绘制内部的X轴 虚线&ndash;&gt;-->
+    <!--<attr name="isDrawInsideDashedY" format="boolean" />&lt;!&ndash;是否绘制内部的Y轴 虚线&ndash;&gt;-->
+    <!--<attr name="isColumnFillColor" format="boolean" />&lt;!&ndash;是否填充单双列颜色&ndash;&gt;-->
+    <!--<attr name="isFillDown" format="boolean" />&lt;!&ndash;是否填充点的下面部分&ndash;&gt;-->
+    <!--<attr name="isAppendX" format="boolean" />&lt;!&ndash;X轴是否向左突出一点&ndash;&gt;-->
+
+    <!--<attr name="textSize" format="dimension|reference" />-->
+    <!--<attr name="xyAxisLineStrokeWidth" format="dimension|reference" />-->
+    <!--<attr name="lineChartStrokeWidth" format="dimension|reference" />-->
+
+
+    <!--<attr name="textColor" format="color|reference" />-->
+    <!--<attr name="bgColor" format="color|reference" />-->
+    <!--<attr name="xyAxisLineColor" format="color|reference" />-->
+</FrameLayout>
