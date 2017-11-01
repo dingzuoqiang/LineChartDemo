@@ -39,6 +39,7 @@ public class DzqLineChart extends View {
     private int paddingLeft = 70;// View左边界距离 Y轴的 距离
     private int paddingRight = 50;// View右边界距离 折线绘制区的 距离
     private int paddingBottom = 50;// View下边界距离 X轴的 距离
+    private int xTitlePaddingXAxis = 10;// X 轴标题到  X轴的 距离
 
     private int yTitle2RightPadding = 10;// Y 轴上标题距离右侧 内容区的距离
 
@@ -91,6 +92,8 @@ public class DzqLineChart extends View {
 
     private boolean isFillDown = true;// 是否填充点的下面部分
     private boolean isAppendX = false;// X轴是否向左突出一点
+
+    private List<List<Point>> positionList;// 点坐标
 
     public DzqLineChart(Context context) {
         super(context);
@@ -211,7 +214,7 @@ public class DzqLineChart extends View {
         setXTitle(listX, canvas);// 画折线图X的单位
         setYTitle(listY, canvas);// 画折线图Y的单位，同时计算出最大的Y轴值
 
-        List<List<Point>> positionList = countListPosition(listX);// 计算像素位置
+        positionList = countListPosition(listX);// 计算像素位置
         drawFill(canvas, positionList);// 填充折线和边框
         drawLineChart(canvas, positionList);// 画折线
         drawCicle(canvas, positionList);// 画点
@@ -332,7 +335,14 @@ public class DzqLineChart extends View {
 
     }
 
-    //为X轴每个标题
+    /**
+     * 为X轴每个标题
+     * <p>
+     * canvas.drawText(text, x, y, paint)，第一个参数是我们需要绘制的文本，第四个参数是我们的画笔，
+     * 这两个不用多说，主要是第二和第三个参数的含义，这两个参数在不同的情况下的值还是不一样的，
+     * x默认是这个字符串的左边在屏幕的位置，如果设置了paint.setTextAlign(Paint.Align.CENTER);那就是字符的中心，
+     * y是指定这个字符baseline在屏幕上的位置，大家记住了，不要混淆，y不是这个字符中心在屏幕上的位置，而是baseline在屏幕上的位置。
+     */
     private void setXTitle(List<Point> listX, Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(textColor);
@@ -348,13 +358,14 @@ public class DzqLineChart extends View {
             canvas.save();
             String xTitle = titleXList.get(i);
             if (xTitle != null) {
+                int titleHeight = CommonUtils.getTextHeight(xTitle, paint);
                 int finalX = listX.get(i).x;
                 if (i != 0)
                     finalX = finalX - CommonUtils.getTextWidth(xTitle, paint) / 2;
                 canvas.rotate(titleXRotateDegrees, finalX,
-                        listX.get(i).y + paddingTop + paddingBottom / 2);
+                        listX.get(i).y + paddingTop + xTitlePaddingXAxis + titleHeight);
                 canvas.drawText(titleXList.get(i), finalX,
-                        listX.get(i).y + paddingTop + paddingBottom / 2
+                        listX.get(i).y + paddingTop + xTitlePaddingXAxis + titleHeight
                         , paint);
                 canvas.restore();
             }
@@ -685,5 +696,37 @@ public class DzqLineChart extends View {
 
     public void setAppendX(boolean appendX) {
         isAppendX = appendX;
+    }
+
+    public List<List<Point>> getPositionList() {
+        return positionList;
+    }
+
+    public int getPaddingBottom() {
+        return paddingBottom;
+    }
+
+    public int getPaddingTop() {
+        return paddingTop;
+    }
+
+    public int getPaddingLeft() {
+        return paddingLeft;
+    }
+
+    public int getPaddingRight() {
+        return paddingRight;
+    }
+
+    public int getScreenX() {
+        return ScreenX;
+    }
+
+    public int getScreenY() {
+        return ScreenY;
+    }
+
+    public void setxTitlePaddingXAxis(int xTitlePaddingXAxis) {
+        this.xTitlePaddingXAxis = xTitlePaddingXAxis;
     }
 }
